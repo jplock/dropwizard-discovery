@@ -1,10 +1,11 @@
 package io.dropwizard.discovery.core;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import io.dropwizard.discovery.DiscoveryFactory;
 import io.dropwizard.discovery.health.CuratorHealthCheck;
 import io.dropwizard.discovery.manage.CuratorManager;
 import io.dropwizard.setup.Environment;
-
+import javax.annotation.Nonnull;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
 
@@ -18,8 +19,8 @@ public class CuratorFactory {
      * @param environment
      *            {@link Environment}
      */
-    public CuratorFactory(final Environment environment) {
-        this.environment = environment;
+    public CuratorFactory(@Nonnull final Environment environment) {
+        this.environment = checkNotNull(environment);
     }
 
     /**
@@ -30,7 +31,7 @@ public class CuratorFactory {
      *            {@link DiscoveryFactory}
      * @return {@link CuratorFramework}
      */
-    public CuratorFramework build(final DiscoveryFactory config) {
+    public CuratorFramework build(@Nonnull final DiscoveryFactory config) {
         final CuratorFramework framework = CuratorFrameworkFactory
                 .builder()
                 .connectionTimeoutMs(

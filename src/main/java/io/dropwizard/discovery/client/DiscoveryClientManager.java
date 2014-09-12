@@ -2,6 +2,7 @@ package io.dropwizard.discovery.client;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import io.dropwizard.lifecycle.Managed;
+import javax.annotation.Nonnull;
 
 public class DiscoveryClientManager implements Managed {
 
@@ -13,7 +14,7 @@ public class DiscoveryClientManager implements Managed {
      * @param client
      *            {@link DiscoveryClient}
      */
-    public DiscoveryClientManager(final DiscoveryClient client) {
+    public DiscoveryClientManager(@Nonnull final DiscoveryClient client) {
         this.client = checkNotNull(client);
     }
 

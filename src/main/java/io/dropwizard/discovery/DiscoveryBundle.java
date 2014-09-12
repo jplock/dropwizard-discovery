@@ -12,7 +12,7 @@ import io.dropwizard.discovery.manage.CuratorAdvertiserManager;
 import io.dropwizard.discovery.manage.ServiceDiscoveryManager;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
-
+import javax.annotation.Nonnull;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.x.discovery.DownInstancePolicy;
 import org.apache.curator.x.discovery.ProviderStrategy;
@@ -20,7 +20,6 @@ import org.apache.curator.x.discovery.ServiceDiscovery;
 import org.apache.curator.x.discovery.ServiceDiscoveryBuilder;
 import org.apache.curator.x.discovery.ServiceInstance;
 import org.apache.curator.x.discovery.strategies.RoundRobinStrategy;
-
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -31,13 +30,13 @@ public abstract class DiscoveryBundle<T extends Configuration> implements
     private ObjectMapper mapper;
 
     @Override
-    public void initialize(final Bootstrap<?> bootstrap) {
+    public void initialize(@Nonnull final Bootstrap<?> bootstrap) {
         mapper = bootstrap.getObjectMapper();
     }
 
     @Override
-    public void run(final T configuration, final Environment environment)
-            throws Exception {
+    public void run(@Nonnull final T configuration,
+            @Nonnull final Environment environment) throws Exception {
 
         final DiscoveryFactory discoveryConfig = getDiscoveryFactory(configuration);
         final CuratorFactory factory = new CuratorFactory(environment);
@@ -78,9 +77,8 @@ public abstract class DiscoveryBundle<T extends Configuration> implements
      *            name of the service to monitor
      * @return {@link DiscoveryClient}
      */
-    public DiscoveryClient newDiscoveryClient(final String serviceName) {
-        return new DiscoveryClient(serviceName, discovery,
-                new DownInstancePolicy(),
+    public DiscoveryClient newDiscoveryClient(@Nonnull final String serviceName) {
+        return newDiscoveryClient(serviceName,
                 new RoundRobinStrategy<InstanceMetadata>());
     }
 
@@ -96,8 +94,9 @@ public abstract class DiscoveryBundle<T extends Configuration> implements
      *            return.
      * @return {@link DiscoveryClient}
      */
-    public DiscoveryClient newDiscoveryClient(final String serviceName,
-            final ProviderStrategy<InstanceMetadata> providerStrategy) {
+    public DiscoveryClient newDiscoveryClient(
+            @Nonnull final String serviceName,
+            @Nonnull final ProviderStrategy<InstanceMetadata> providerStrategy) {
         return new DiscoveryClient(serviceName, discovery,
                 new DownInstancePolicy(), providerStrategy);
     }

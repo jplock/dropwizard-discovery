@@ -1,6 +1,7 @@
 package io.dropwizard.discovery.health;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import javax.annotation.Nonnull;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.imps.CuratorFrameworkState;
 import com.codahale.metrics.health.HealthCheck;
@@ -15,7 +16,7 @@ public class CuratorHealthCheck extends HealthCheck {
      * @param framework
      *            {@link CuratorFramework}
      */
-    public CuratorHealthCheck(final CuratorFramework framework) {
+    public CuratorHealthCheck(@Nonnull final CuratorFramework framework) {
         this.framework = checkNotNull(framework);
     }
 

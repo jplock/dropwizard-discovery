@@ -2,6 +2,7 @@ package io.dropwizard.discovery.manage;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import io.dropwizard.lifecycle.Managed;
+import javax.annotation.Nonnull;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.utils.EnsurePath;
 
@@ -15,7 +16,7 @@ public class CuratorManager implements Managed {
      * @param framework
      *            {@link CuratorFramework}
      */
-    public CuratorManager(final CuratorFramework framework) {
+    public CuratorManager(@Nonnull final CuratorFramework framework) {
         this.framework = checkNotNull(framework);
     }
 

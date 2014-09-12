@@ -1,9 +1,10 @@
 package io.dropwizard.discovery.core;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import io.dropwizard.lifecycle.ServerLifecycleListener;
 import java.net.InetSocketAddress;
 import java.nio.channels.ServerSocketChannel;
-import io.dropwizard.lifecycle.ServerLifecycleListener;
+import javax.annotation.Nonnull;
 import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.Server;
 import org.slf4j.Logger;
@@ -22,7 +23,8 @@ public class CuratorAdvertisementListener implements ServerLifecycleListener {
      * @param advertiser
      *            {@link CuratorAdvertiser}
      */
-    public CuratorAdvertisementListener(final CuratorAdvertiser advertiser) {
+    public CuratorAdvertisementListener(
+            @Nonnull final CuratorAdvertiser advertiser) {
         this.advertiser = checkNotNull(advertiser);
     }
 

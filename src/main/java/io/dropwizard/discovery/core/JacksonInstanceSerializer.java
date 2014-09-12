@@ -1,6 +1,7 @@
 package io.dropwizard.discovery.core;
 
 import java.io.ByteArrayOutputStream;
+import javax.annotation.Nonnull;
 import org.apache.curator.x.discovery.ServiceInstance;
 import org.apache.curator.x.discovery.details.InstanceSerializer;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -22,8 +23,8 @@ public class JacksonInstanceSerializer<T> implements InstanceSerializer<T> {
      * @param typeRef
      *            {@link TypeReference}
      */
-    public JacksonInstanceSerializer(final ObjectMapper mapper,
-            final TypeReference<ServiceInstance<T>> typeRef) {
+    public JacksonInstanceSerializer(@Nonnull final ObjectMapper mapper,
+            @Nonnull final TypeReference<ServiceInstance<T>> typeRef) {
         this.reader = mapper.reader();
         this.writer = mapper.writer();
         this.typeRef = typeRef;

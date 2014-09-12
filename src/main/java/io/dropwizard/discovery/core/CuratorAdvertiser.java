@@ -2,15 +2,13 @@ package io.dropwizard.discovery.core;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import io.dropwizard.discovery.DiscoveryFactory;
-
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.util.Collection;
 import java.util.UUID;
-
+import javax.annotation.Nonnull;
 import javax.annotation.concurrent.GuardedBy;
 import javax.annotation.concurrent.ThreadSafe;
-
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.state.ConnectionState;
 import org.apache.curator.framework.state.ConnectionStateListener;
@@ -19,7 +17,6 @@ import org.apache.curator.x.discovery.ServiceInstance;
 import org.apache.curator.x.discovery.ServiceInstanceBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
 
@@ -49,8 +46,8 @@ public class CuratorAdvertiser implements ConnectionStateListener {
      * @param discovery
      *            {@link ServiceDiscovery}
      */
-    public CuratorAdvertiser(final DiscoveryFactory configuration,
-            final ServiceDiscovery<InstanceMetadata> discovery) {
+    public CuratorAdvertiser(@Nonnull final DiscoveryFactory configuration,
+            @Nonnull final ServiceDiscovery<InstanceMetadata> discovery) {
         this.configuration = checkNotNull(configuration);
         this.discovery = checkNotNull(discovery);
     }
@@ -101,7 +98,8 @@ public class CuratorAdvertiser implements ConnectionStateListener {
      * @throws Exception
      */
     public synchronized void registerAvailability(
-            final ServiceInstance<InstanceMetadata> instance) throws Exception {
+            @Nonnull final ServiceInstance<InstanceMetadata> instance)
+            throws Exception {
         checkInitialized();
         LOGGER.info("Registering service ({}) at <{}:{}>",
                 configuration.getServiceName(), listenAddress, listenPort);
@@ -128,7 +126,8 @@ public class CuratorAdvertiser implements ConnectionStateListener {
      * @throws Exception
      */
     public synchronized void unregisterAvailability(
-            final ServiceInstance<InstanceMetadata> instance) throws Exception {
+            @Nonnull final ServiceInstance<InstanceMetadata> instance)
+            throws Exception {
         checkInitialized();
         LOGGER.info("Unregistering service ({}) at <{}:{}>",
                 configuration.getServiceName(), listenAddress, listenPort);

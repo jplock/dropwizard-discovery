@@ -3,6 +3,7 @@ package io.dropwizard.discovery.manage;
 import static com.google.common.base.Preconditions.checkNotNull;
 import io.dropwizard.discovery.core.CuratorAdvertiser;
 import io.dropwizard.lifecycle.Managed;
+import javax.annotation.Nonnull;
 
 public class CuratorAdvertiserManager implements Managed {
 
@@ -14,7 +15,7 @@ public class CuratorAdvertiserManager implements Managed {
      * @param advertiser
      *            {@link CuratorAdvertiser}
      */
-    public CuratorAdvertiserManager(final CuratorAdvertiser advertiser) {
+    public CuratorAdvertiserManager(@Nonnull final CuratorAdvertiser advertiser) {
         this.advertiser = checkNotNull(advertiser);
     }
 

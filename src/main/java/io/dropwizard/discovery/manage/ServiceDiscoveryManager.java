@@ -2,6 +2,7 @@ package io.dropwizard.discovery.manage;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import io.dropwizard.lifecycle.Managed;
+import javax.annotation.Nonnull;
 import org.apache.curator.x.discovery.ServiceDiscovery;
 
 public class ServiceDiscoveryManager<T> implements Managed {
@@ -14,7 +15,7 @@ public class ServiceDiscoveryManager<T> implements Managed {
      * @param discovery
      *            {@link ServiceDiscovery}
      */
-    public ServiceDiscoveryManager(final ServiceDiscovery<T> discovery) {
+    public ServiceDiscoveryManager(@Nonnull final ServiceDiscovery<T> discovery) {
         this.discovery = checkNotNull(discovery);
     }
 

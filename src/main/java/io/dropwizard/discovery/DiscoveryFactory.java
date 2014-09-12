@@ -1,7 +1,9 @@
 package io.dropwizard.discovery;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import io.dropwizard.util.Duration;
 import io.dropwizard.validation.PortRange;
+import javax.annotation.Nonnull;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -34,7 +36,7 @@ public class DiscoveryFactory {
 
         final private CompressionProvider provider;
 
-        CompressionCodec(final CompressionProvider provider) {
+        CompressionCodec(@Nonnull final CompressionProvider provider) {
             this.provider = provider;
         }
 
@@ -61,7 +63,7 @@ public class DiscoveryFactory {
     private String listenAddress = "127.0.0.1";
 
     @NotEmpty
-    private String namespace = "snowizard";
+    private String namespace = "dropwizard";
 
     @NotEmpty
     private String basePath = "service";
@@ -115,8 +117,8 @@ public class DiscoveryFactory {
     }
 
     @JsonProperty
-    public void setServiceName(final String serviceName) {
-        this.serviceName = serviceName;
+    public void setServiceName(@Nonnull final String serviceName) {
+        this.serviceName = checkNotNull(serviceName);
     }
 
     @JsonProperty

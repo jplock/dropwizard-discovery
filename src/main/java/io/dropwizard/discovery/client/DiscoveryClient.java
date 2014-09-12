@@ -1,15 +1,13 @@
 package io.dropwizard.discovery.client;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 import io.dropwizard.discovery.core.InstanceMetadata;
-
 import java.io.Closeable;
 import java.io.IOException;
 import java.util.Collection;
-
+import javax.annotation.Nonnull;
 import javax.annotation.concurrent.ThreadSafe;
-
 import org.apache.curator.x.discovery.DownInstancePolicy;
 import org.apache.curator.x.discovery.ProviderStrategy;
 import org.apache.curator.x.discovery.ServiceCache;
@@ -41,10 +39,10 @@ public class DiscoveryClient implements Closeable {
      * @param providerStrategy
      *            {@link ProviderStrategy} to use when selecting an instance
      */
-    public DiscoveryClient(final String serviceName,
-            final ServiceDiscovery<InstanceMetadata> discovery,
-            final DownInstancePolicy downInstancePolicy,
-            final ProviderStrategy<InstanceMetadata> providerStrategy) {
+    public DiscoveryClient(@Nonnull final String serviceName,
+            @Nonnull final ServiceDiscovery<InstanceMetadata> discovery,
+            @Nonnull final DownInstancePolicy downInstancePolicy,
+            @Nonnull final ProviderStrategy<InstanceMetadata> providerStrategy) {
         checkNotNull(serviceName);
         checkArgument(!serviceName.isEmpty(), "serviceName cannot be empty");
         checkNotNull(providerStrategy);
@@ -74,7 +72,7 @@ public class DiscoveryClient implements Closeable {
      * @return Collection of service instances
      */
     public Collection<ServiceInstance<InstanceMetadata>> getInstances(
-            final String serviceName) throws Exception {
+            @Nonnull final String serviceName) throws Exception {
         return discovery.queryForInstances(serviceName);
     }
 
@@ -103,7 +101,8 @@ public class DiscoveryClient implements Closeable {
      * @param instance
      *            {@link ServiceInstance} that is causing the error.
      */
-    public void noteError(final ServiceInstance<InstanceMetadata> instance) {
+    public void noteError(
+            @Nonnull final ServiceInstance<InstanceMetadata> instance) {
         provider.noteError(instance);
     }
 
