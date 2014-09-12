@@ -73,7 +73,7 @@ If you want to also consume other services, you can store an instance of the `Di
 
         @Override
         public void run(HelloWorldConfiguration configuration, Environment environment) throws Exception {
-            final DiscoveryClient client = discoveryBundle.newDiscoveryClient("hello-world");
+            final DiscoveryClient client = discoveryBundle.newDiscoveryClient("other-service");
             environment.lifecycle().manage(new DiscoveryClientManager(client));
         }
     }
