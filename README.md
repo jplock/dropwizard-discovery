@@ -3,7 +3,7 @@ Dropwizard Discovery
 [![Build Status](https://travis-ci.org/dropwizard/dropwizard-discovery.svg?branch=master)](https://travis-ci.org/dropwizard/dropwizard-discovery)
 [![Coverage Status](https://img.shields.io/coveralls/dropwizard/dropwizard-discovery.svg)](https://coveralls.io/r/dropwizard/dropwizard-discovery)
 
-`dropwizard-discovery` is a [Dropwizard](http://dropwizard.io) [bundle](http://dropwizard.io/manual/core.html#bundles) that can be used to register a Dropwizard service into [Zookeeper](https://zookeeper.apache.org) upon startup. Connectivity to Zookeeper is provided by Netflix's [Curator](http://curator.incubator.apache.org) library and its built in [Service Discovery](http://curator.incubator.apache.org/curator-x-discovery/index.html) framework. This code was originally open sourced by General Electric as [snowizard-discovery](https://github.com/GeneralElectric/snowizard-discovery) under a BSD license.
+`dropwizard-discovery` is a [Dropwizard](http://dropwizard.io) [bundle](http://dropwizard.io/manual/core.html#bundles) that can be used to register a Dropwizard service into [Zookeeper](https://zookeeper.apache.org) upon startup. Connectivity to Zookeeper is provided by Netflix's [Curator](http://curator.apache.org) library and its built in [Service Discovery](http://curator.apache.org/curator-x-discovery/index.html) framework. This code was originally open sourced by General Electric as [snowizard-discovery](https://github.com/GeneralElectric/snowizard-discovery) under a BSD license.
 
 
 Usage
