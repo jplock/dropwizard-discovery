@@ -25,9 +25,10 @@ public class CuratorAdvertiserTest {
 
     @Test
     public void testInitListenInfo() throws Exception {
+        factory.setListenAddress("127.0.0.1");
         advertiser.initListenInfo(8080);
         assertThat(advertiser.getListenPort()).isEqualTo(8080);
-        assertThat(advertiser.getListenAddress()).isNotEqualTo("");
+        assertThat(advertiser.getListenAddress()).isEqualTo("127.0.0.1");
     }
 
     @Test

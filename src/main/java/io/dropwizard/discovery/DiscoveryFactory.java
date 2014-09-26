@@ -59,8 +59,8 @@ public class DiscoveryFactory {
     @NotEmpty
     private String serviceName;
 
-    @NotEmpty
-    private String listenAddress = "127.0.0.1";
+    @NotNull
+    private String listenAddress = "";
 
     @NotEmpty
     private String namespace = "dropwizard";
@@ -134,6 +134,11 @@ public class DiscoveryFactory {
     @JsonProperty
     public String getListenAddress() {
         return listenAddress;
+    }
+
+    @JsonProperty
+    public void setListenAddress(final String listenAddress) {
+        this.listenAddress = listenAddress;
     }
 
     @JsonProperty
