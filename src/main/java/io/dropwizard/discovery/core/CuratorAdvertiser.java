@@ -18,7 +18,6 @@ import org.apache.curator.x.discovery.ServiceInstanceBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.google.common.base.Strings;
-import com.google.common.collect.Iterables;
 
 @ThreadSafe
 public class CuratorAdvertiser implements ConnectionStateListener {
@@ -53,32 +52,45 @@ public class CuratorAdvertiser implements ConnectionStateListener {
     }
 
     /**
-     * This must be called before other methods are used.
+     * Set the listen port and set the listen address from the configuration
+     * file or attempt to auto-detect the first IPv4 address that is found.
      * 
      * @param port
      *            port this instance is listening on
-     * @throws Exception
      */
     public synchronized void initListenInfo(final int port) {
+        listenPort = port;
+
+        if (!Strings.isNullOrEmpty(configuration.getListenAddress())) {
+            LOGGER.info("Using '{}' as listenAddress from configuration file",
+                    configuration.getListenAddress());
+            listenAddress = configuration.getListenAddress();
+            return;
+        }
+
+        LOGGER.warn("listenAddress not found in configuration file, attempting to auto-detect");
+
         try {
             final Collection<InetAddress> ips = ServiceInstanceBuilder
                     .getAllLocalIPs();
-            if (Iterables.size(ips) > 0) {
-                listenAddress = String.valueOf(Iterables.get(ips, 0))
-                        .substring(1);
-                LOGGER.debug("Found Local IP Addresses: {}, using {}", ips,
-                        listenAddress);
+            for (final InetAddress ip : ips) {
+                String ipAddr = String.valueOf(ip);
+                // crude hack to look for IPv6 addresses
+                if (ipAddr.indexOf(":") != -1) {
+                    continue;
+                }
+                if (ipAddr.startsWith("/")) {
+                    ipAddr = ipAddr.substring(1);
+                }
+                listenAddress = ipAddr;
+                LOGGER.info(
+                        "Using '{}' as listenAddress from found addresses: {}",
+                        listenAddress, ips);
+                break;
             }
         } catch (final SocketException e) {
             LOGGER.error("Error getting local IP addresses", e);
         }
-
-        if (Strings.isNullOrEmpty(listenAddress)) {
-            LOGGER.debug("Using listenAddress from configuration file");
-            listenAddress = configuration.getListenAddress();
-        }
-
-        listenPort = port;
     }
 
     /**
