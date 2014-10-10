@@ -11,7 +11,7 @@ Usage
 
 In your Dropwizard [Configuration](http://dropwizard.io/manual/core.html#configuration) file, add a property to represent the discovery configuration for your service:
 
-```
+```yaml
 # Discovery-related settings.
 discovery:
     serviceName: hello-world
@@ -19,64 +19,70 @@ discovery:
 
 And have your configuration class expose the `DiscoveryFactory`:
 
-    public class HelloWorldConfiguration extends Configuration {
+```java
+public class HelloWorldConfiguration extends Configuration {
 
-        @Valid
-        @NotNull
-        private DiscoveryFactory discovery = new DiscoveryFactory();
+    @Valid
+    @NotNull
+    private DiscoveryFactory discovery = new DiscoveryFactory();
 
-        @JsonProperty("discovery")
-        public DiscoveryFactory getDiscoveryFactory() {
-            return discovery;
-        }
-
-        @JsonProperty("discovery")
-        public void setDiscoveryFactory(DiscoveryFactory discoveryFactory) {
-            this.discovery = discoveryFactory;
-        }
+    @JsonProperty("discovery")
+    public DiscoveryFactory getDiscoveryFactory() {
+        return discovery;
     }
+
+    @JsonProperty("discovery")
+    public void setDiscoveryFactory(DiscoveryFactory discoveryFactory) {
+        this.discovery = discoveryFactory;
+    }
+}
+```
 
 If you only wish to have your service register itself with Zookeeper and you don't intend on consuming any other services, you just need to add the following into the [`Application#initialize`](http://dropwizard.io/0.7.1/dropwizard-core/apidocs/io/dropwizard/Application.html#initialize(io.dropwizard.setup.Bootstrap)) method:
 
-    public class HelloWorldApplication extends Application<HelloWorldConfiguration> {
+```java
+public class HelloWorldApplication extends Application<HelloWorldConfiguration> {
 
-        private final DiscoveryBundle<HelloWorldConfiguration> discoveryBundle = new DiscoveryBundle<HelloWorldConfiguration>() {
-            @Override
-            public DiscoveryFactory getDiscoveryFactory(HelloWorldConfiguration configuration) {
-                return configuration.getDiscoveryFactory();
-            }
-        };
-
+    private final DiscoveryBundle<HelloWorldConfiguration> discoveryBundle = new DiscoveryBundle<HelloWorldConfiguration>() {
         @Override
-        public void initialize(Bootstrap<HelloWorldConfiguration> bootstrap) {
-            bootstrap.addBundle(discoveryBundle);
+        public DiscoveryFactory getDiscoveryFactory(HelloWorldConfiguration configuration) {
+            return configuration.getDiscoveryFactory();
         }
+    };
+
+    @Override
+    public void initialize(Bootstrap<HelloWorldConfiguration> bootstrap) {
+        bootstrap.addBundle(discoveryBundle);
     }
+}
+```
 
 where `HelloWorldConfiguration` is your configuration class name.
 
 If you want to also consume other services, you can store an instance of the `DiscoveryBundle` so that you can retrieve a new `DiscoveryClient` to access additional services.
 
-    public class HelloWorldApplication extends Application<HelloWorldConfiguration> {
+```java
+public class HelloWorldApplication extends Application<HelloWorldConfiguration> {
 
-        private final DiscoveryBundle<HelloWorldConfiguration> discoveryBundle = new DiscoveryBundle<HelloWorldConfiguration>() {
-            @Override
-            public DiscoveryFactory getDiscoveryFactory(HelloWorldConfiguration configuration) {
-                return configuration.getDiscoveryFactory();
-            }
-        };
-
+    private final DiscoveryBundle<HelloWorldConfiguration> discoveryBundle = new DiscoveryBundle<HelloWorldConfiguration>() {
         @Override
-        public void initialize(Bootstrap<HelloWorldConfiguration> bootstrap) {
-            bootstrap.addBundle(discoveryBundle);
+        public DiscoveryFactory getDiscoveryFactory(HelloWorldConfiguration configuration) {
+            return configuration.getDiscoveryFactory();
         }
+    };
 
-        @Override
-        public void run(HelloWorldConfiguration configuration, Environment environment) throws Exception {
-            final DiscoveryClient client = discoveryBundle.newDiscoveryClient("other-service");
-            environment.lifecycle().manage(new DiscoveryClientManager(client));
-        }
+    @Override
+    public void initialize(Bootstrap<HelloWorldConfiguration> bootstrap) {
+        bootstrap.addBundle(discoveryBundle);
     }
+
+    @Override
+    public void run(HelloWorldConfiguration configuration, Environment environment) throws Exception {
+        final DiscoveryClient client = discoveryBundle.newDiscoveryClient("other-service");
+        environment.lifecycle().manage(new DiscoveryClientManager(client));
+    }
+}
+```
 
 Be sure to register the `DiscoveryClient` using the `DiscoveryClientManager` as a [Managed Object](http://dropwizard.io/manual/core.html#managed-objects) so that it is properly started and shutdown when your service is stopped and started.
 
@@ -86,17 +92,18 @@ Maven Artifacts
 
 This project is available on Maven Central. To add it to your project simply add the following dependencies to your `pom.xml`:
 
-    <dependency>
-      <groupId>io.dropwizard.modules</groupId>
-      <artifactId>dropwizard-discovery</artifactId>
-      <version>0.7.1-1</version>
-    </dependency>
-
+```xml
+<dependency>
+  <groupId>io.dropwizard.modules</groupId>
+  <artifactId>dropwizard-discovery</artifactId>
+  <version>0.7.1-1</version>
+</dependency>
+```
 
 Enhancements
 ------------
 
-1. Support an "[Advertise Locally, Lookup Globally](http://whilefalse.blogspot.com/2012/12/building-global-highly-available.html)" model that Camille Fournier outlined on her blog by supporting separate Zookeeper connections, one that connects locally and one that connects to a global instance.
+1. Support an "[Advertise Locally, Lookup Globally](http://whilefalse.blogspot.com/2012/12/building-global-highly-available.html)" model that [Camille Fournier](https://github.com/skamille) outlined on her blog by supporting separate Zookeeper connections, one that connects locally and one that connects to a global instance.
 
 
 Support
