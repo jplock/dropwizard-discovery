@@ -135,8 +135,18 @@ public class DiscoveryFactory {
     }
 
     @JsonProperty
+    public void setNamespace(@Nonnull final String namespace) {
+        this.namespace = checkNotNull(namespace);
+    }
+
+    @JsonProperty
     public String getBasePath() {
         return basePath;
+    }
+
+    @JsonProperty
+    public void setBasePath(@Nonnull final String basePath) {
+        this.basePath = checkNotNull(basePath);
     }
 
     @JsonProperty
@@ -145,8 +155,8 @@ public class DiscoveryFactory {
     }
 
     @JsonProperty
-    public void setListenAddress(final String listenAddress) {
-        this.listenAddress = listenAddress;
+    public void setListenAddress(@Nonnull final String listenAddress) {
+        this.listenAddress = checkNotNull(listenAddress);
     }
 
     @JsonProperty
@@ -155,8 +165,18 @@ public class DiscoveryFactory {
     }
 
     @JsonProperty
+    public void setConnectionTimeout(@Nonnull final Duration connectionTimeout) {
+        this.connectionTimeout = checkNotNull(connectionTimeout);
+    }
+
+    @JsonProperty
     public Duration getSessionTimeout() {
         return sessionTimeout;
+    }
+
+    @JsonProperty
+    public void setSessionTimeout(@Nonnull final Duration sessionTimeout) {
+        this.sessionTimeout = checkNotNull(sessionTimeout);
     }
 
     @JsonProperty
@@ -164,9 +184,19 @@ public class DiscoveryFactory {
         return isDisabled;
     }
 
+    @JsonProperty("isDisabled")
+    public void setIsDisabled(final boolean isDisabled) {
+        this.isDisabled = isDisabled;
+    }
+
     @JsonProperty
     public boolean isReadOnly() {
         return isReadOnly;
+    }
+
+    @JsonProperty("isReadOnly")
+    public void setIsReadOnly(final boolean isReadOnly) {
+        this.isReadOnly = isReadOnly;
     }
 
     @JsonProperty
@@ -175,8 +205,18 @@ public class DiscoveryFactory {
     }
 
     @JsonProperty
+    public void setMaxRetries(final int maxRetries) {
+        this.maxRetries = maxRetries;
+    }
+
+    @JsonProperty
     public Duration getBaseSleepTime() {
         return baseSleepTime;
+    }
+
+    @JsonProperty
+    public void setBaseSleepTime(@Nonnull final Duration baseSleepTime) {
+        this.baseSleepTime = checkNotNull(baseSleepTime);
     }
 
     /**
