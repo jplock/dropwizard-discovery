@@ -39,6 +39,11 @@ public abstract class DiscoveryBundle<T extends Configuration> implements
             @Nonnull final Environment environment) throws Exception {
 
         final DiscoveryFactory discoveryConfig = getDiscoveryFactory(configuration);
+        // Allow disabling all discovery functionality
+        if (discoveryConfig.isDisabled()) {
+            return;
+        }
+
         final CuratorFactory factory = new CuratorFactory(environment);
         final CuratorFramework framework = factory.build(discoveryConfig);
 

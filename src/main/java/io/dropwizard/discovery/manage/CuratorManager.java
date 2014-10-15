@@ -19,8 +19,8 @@ public class CuratorManager implements Managed {
      */
     public CuratorManager(@Nonnull final CuratorFramework framework) {
         this.framework = checkNotNull(framework);
-        // start framework directly to allow other bundles to interact with zookeeper
-        // during their run() method.
+        // start framework directly to allow other bundles to interact with
+        // zookeeper during their run() method.
         if (framework.getState() != CuratorFrameworkState.STARTED) {
             framework.start();
         }
