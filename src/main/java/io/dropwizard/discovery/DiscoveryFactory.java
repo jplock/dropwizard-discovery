@@ -2,7 +2,9 @@ package io.dropwizard.discovery;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import io.dropwizard.util.Duration;
+import io.dropwizard.validation.MinDuration;
 import io.dropwizard.validation.PortRange;
+import java.util.concurrent.TimeUnit;
 import javax.annotation.Nonnull;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -69,12 +71,15 @@ public class DiscoveryFactory {
     private String basePath = "service";
 
     @NotNull
+    @MinDuration(value = 1, unit = TimeUnit.MILLISECONDS)
     private Duration connectionTimeout = Duration.seconds(6);
 
     @NotNull
+    @MinDuration(value = 1, unit = TimeUnit.MILLISECONDS)
     private Duration sessionTimeout = Duration.seconds(6);
 
     @NotNull
+    @MinDuration(value = 1, unit = TimeUnit.MILLISECONDS)
     private Duration baseSleepTime = Duration.seconds(1);
 
     @Min(0)
@@ -86,6 +91,9 @@ public class DiscoveryFactory {
 
     @NotNull
     private Boolean isReadOnly = false;
+
+    @NotNull
+    private Boolean isDisabled = false;
 
     @JsonProperty
     public String[] getHosts() {
@@ -149,6 +157,11 @@ public class DiscoveryFactory {
     @JsonProperty
     public Duration getSessionTimeout() {
         return sessionTimeout;
+    }
+
+    @JsonProperty
+    public boolean isDisabled() {
+        return isDisabled;
     }
 
     @JsonProperty
