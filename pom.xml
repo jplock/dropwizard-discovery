@@ -83,7 +83,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <dropwizard.version>0.7.1</dropwizard.version>
-        <curator.version>2.6.0</curator.version>
+        <curator.version>2.7.0</curator.version>
     </properties>
 
     <profiles>
