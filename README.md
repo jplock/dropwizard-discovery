@@ -43,12 +43,26 @@ If you only wish to have your service register itself with Zookeeper and you don
 ```java
 public class HelloWorldApplication extends Application<HelloWorldConfiguration> {
 
-    private final DiscoveryBundle<HelloWorldConfiguration> discoveryBundle = new DiscoveryBundle<HelloWorldConfiguration>() {
-        @Override
-        public DiscoveryFactory getDiscoveryFactory(HelloWorldConfiguration configuration) {
-            return configuration.getDiscoveryFactory();
-        }
-    };
+    private final DiscoveryBundle<HelloWorldConfiguration> discoveryBundle = new DiscoveryBundle<T,InstanceMetadata>(){
+	        // use default ServiceInstanceFactory
+            final ServiceInstanceFactory<InstanceMetadata> instanceFactory = new DefaultServiceInstanceFactory();
+
+            @Override
+            public DiscoveryFactory getDiscoveryFactory(T configuration) {
+                return configuration.getDiscovery();
+            }
+
+            @Override
+            public CuratorAdvertiser<InstanceMetadata> getCuratorAdvertiser(DiscoveryFactory discoveryConfig, ServiceDiscovery<InstanceMetadata> discovery) {
+                return new CuratorAdvertiser<InstanceMetadata>(discoveryConfig, discovery, instanceFactory);
+            }
+
+            @Override
+            protected Class<InstanceMetadata> getPayloadClass() {
+                return instanceFactory.getPayloadClass();
+            }
+
+        });
 
     @Override
     public void initialize(Bootstrap<HelloWorldConfiguration> bootstrap) {
