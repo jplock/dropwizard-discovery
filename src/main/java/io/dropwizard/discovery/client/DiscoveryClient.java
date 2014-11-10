@@ -2,12 +2,14 @@ package io.dropwizard.discovery.client;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
-import io.dropwizard.discovery.core.InstanceMetadata;
+
 import java.io.Closeable;
 import java.io.IOException;
 import java.util.Collection;
+
 import javax.annotation.Nonnull;
 import javax.annotation.concurrent.ThreadSafe;
+
 import org.apache.curator.x.discovery.DownInstancePolicy;
 import org.apache.curator.x.discovery.ProviderStrategy;
 import org.apache.curator.x.discovery.ServiceCache;
@@ -18,13 +20,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @ThreadSafe
-public class DiscoveryClient implements Closeable {
+public class DiscoveryClient<T> implements Closeable {
 
     private static final Logger LOGGER = LoggerFactory
             .getLogger(DiscoveryClient.class);
-    private final ServiceDiscovery<InstanceMetadata> discovery;
-    private final ServiceProvider<InstanceMetadata> provider;
-    private final ServiceCache<InstanceMetadata> cache;
+    private final ServiceDiscovery<T> discovery;
+    private final ServiceProvider<T> provider;
+    private final ServiceCache<T> cache;
 
     /**
      * Constructor
@@ -40,9 +42,9 @@ public class DiscoveryClient implements Closeable {
      *            {@link ProviderStrategy} to use when selecting an instance
      */
     public DiscoveryClient(@Nonnull final String serviceName,
-            @Nonnull final ServiceDiscovery<InstanceMetadata> discovery,
+            @Nonnull final ServiceDiscovery<T> discovery,
             @Nonnull final DownInstancePolicy downInstancePolicy,
-            @Nonnull final ProviderStrategy<InstanceMetadata> providerStrategy) {
+            @Nonnull final ProviderStrategy<T> providerStrategy) {
         checkNotNull(serviceName);
         checkArgument(!serviceName.isEmpty(), "serviceName cannot be empty");
         checkNotNull(providerStrategy);
@@ -71,7 +73,7 @@ public class DiscoveryClient implements Closeable {
      * 
      * @return Collection of service instances
      */
-    public Collection<ServiceInstance<InstanceMetadata>> getInstances(
+    public Collection<ServiceInstance<T>> getInstances(
             @Nonnull final String serviceName) throws Exception {
         return discovery.queryForInstances(serviceName);
     }
@@ -81,7 +83,7 @@ public class DiscoveryClient implements Closeable {
      * 
      * @return Collection of service instances
      */
-    public Collection<ServiceInstance<InstanceMetadata>> getInstances() {
+    public Collection<ServiceInstance<T>> getInstances() {
         return cache.getInstances();
     }
 
@@ -91,7 +93,7 @@ public class DiscoveryClient implements Closeable {
      * @return ServiceInstance
      * @throws Exception
      */
-    public ServiceInstance<InstanceMetadata> getInstance() throws Exception {
+    public ServiceInstance<T> getInstance() throws Exception {
         return provider.getInstance();
     }
 
@@ -102,7 +104,7 @@ public class DiscoveryClient implements Closeable {
      *            {@link ServiceInstance} that is causing the error.
      */
     public void noteError(
-            @Nonnull final ServiceInstance<InstanceMetadata> instance) {
+            @Nonnull final ServiceInstance<T> instance) {
         provider.noteError(instance);
     }
 

@@ -5,9 +5,9 @@ import io.dropwizard.discovery.core.CuratorAdvertiser;
 import io.dropwizard.lifecycle.Managed;
 import javax.annotation.Nonnull;
 
-public class CuratorAdvertiserManager implements Managed {
+public class CuratorAdvertiserManager<T> implements Managed {
 
-    private final CuratorAdvertiser advertiser;
+    private final CuratorAdvertiser<T> advertiser;
 
     /**
      * Constructor
@@ -15,7 +15,7 @@ public class CuratorAdvertiserManager implements Managed {
      * @param advertiser
      *            {@link CuratorAdvertiser}
      */
-    public CuratorAdvertiserManager(@Nonnull final CuratorAdvertiser advertiser) {
+    public CuratorAdvertiserManager(@Nonnull final CuratorAdvertiser<T> advertiser) {
         this.advertiser = checkNotNull(advertiser);
     }
 

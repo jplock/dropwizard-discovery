@@ -5,6 +5,7 @@ import static org.fest.assertions.api.Assertions.failBecauseExceptionWasNotThrow
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import io.dropwizard.discovery.DiscoveryFactory;
+
 import org.apache.curator.x.discovery.ServiceDiscovery;
 import org.apache.curator.x.discovery.ServiceInstance;
 import org.junit.Before;
@@ -15,8 +16,7 @@ public class CuratorAdvertiserTest {
     @SuppressWarnings("unchecked")
     private final ServiceDiscovery<InstanceMetadata> discovery = mock(ServiceDiscovery.class);
     private final DiscoveryFactory factory = new DiscoveryFactory();
-    private final CuratorAdvertiser advertiser = new CuratorAdvertiser(factory,
-            discovery);
+    private final CuratorAdvertiser<InstanceMetadata> advertiser = new CuratorAdvertiser<InstanceMetadata>(factory, discovery, new DefaultServiceInstanceFactory());
 
     @Before
     public void setUp() {

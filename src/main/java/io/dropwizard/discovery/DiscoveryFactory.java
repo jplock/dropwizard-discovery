@@ -4,16 +4,20 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import io.dropwizard.util.Duration;
 import io.dropwizard.validation.MinDuration;
 import io.dropwizard.validation.PortRange;
+
 import java.util.concurrent.TimeUnit;
+
 import javax.annotation.Nonnull;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+
 import org.apache.curator.RetryPolicy;
 import org.apache.curator.framework.api.CompressionProvider;
 import org.apache.curator.framework.imps.GzipCompressionProvider;
 import org.apache.curator.retry.ExponentialBackoffRetry;
 import org.hibernate.validator.constraints.NotEmpty;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Joiner;
@@ -91,7 +95,7 @@ public class DiscoveryFactory {
 
     @NotNull
     private Boolean isReadOnly = false;
-
+    
     @NotNull
     private Boolean isDisabled = false;
 
@@ -218,7 +222,7 @@ public class DiscoveryFactory {
     public void setBaseSleepTime(@Nonnull final Duration baseSleepTime) {
         this.baseSleepTime = checkNotNull(baseSleepTime);
     }
-
+    
     /**
      * Returns a {@link RetryPolicy} for handling failed connection attempts.
      * 

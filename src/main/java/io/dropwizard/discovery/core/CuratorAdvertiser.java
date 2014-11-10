@@ -2,13 +2,16 @@ package io.dropwizard.discovery.core;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import io.dropwizard.discovery.DiscoveryFactory;
+
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.util.Collection;
 import java.util.UUID;
+
 import javax.annotation.Nonnull;
 import javax.annotation.concurrent.GuardedBy;
 import javax.annotation.concurrent.ThreadSafe;
+
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.state.ConnectionState;
 import org.apache.curator.framework.state.ConnectionStateListener;
@@ -17,25 +20,27 @@ import org.apache.curator.x.discovery.ServiceInstance;
 import org.apache.curator.x.discovery.ServiceInstanceBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import com.google.common.base.Strings;
 
 @ThreadSafe
-public class CuratorAdvertiser implements ConnectionStateListener {
+public class CuratorAdvertiser<T> implements ConnectionStateListener {
     private static final Logger LOGGER = LoggerFactory
             .getLogger(CuratorAdvertiser.class);
 
-    private static final UUID instanceId = UUID.randomUUID();
-    private final ServiceDiscovery<InstanceMetadata> discovery;
-    private final DiscoveryFactory configuration;
+    protected static final UUID instanceId = UUID.randomUUID();
+    protected final ServiceDiscovery<T> discovery;
+    protected final DiscoveryFactory configuration;
+    protected final ServiceInstanceFactory<T> serviceInstanceFactory;
 
     @GuardedBy("this")
-    private String listenAddress;
+    protected String listenAddress;
 
     @GuardedBy("this")
-    private int listenPort = 0;
+    protected int listenPort = 0;
 
     @GuardedBy("this")
-    private ServiceInstance<InstanceMetadata> instance;
+    protected ServiceInstance<T> instance;
 
     /**
      * Constructor
@@ -46,9 +51,10 @@ public class CuratorAdvertiser implements ConnectionStateListener {
      *            {@link ServiceDiscovery}
      */
     public CuratorAdvertiser(@Nonnull final DiscoveryFactory configuration,
-            @Nonnull final ServiceDiscovery<InstanceMetadata> discovery) {
+            @Nonnull final ServiceDiscovery<T> discovery, final ServiceInstanceFactory<T> serviceInstanceFactory) {
         this.configuration = checkNotNull(configuration);
         this.discovery = checkNotNull(discovery);
+        this.serviceInstanceFactory = checkNotNull(serviceInstanceFactory);
     }
 
     /**
@@ -110,7 +116,7 @@ public class CuratorAdvertiser implements ConnectionStateListener {
      * @throws Exception
      */
     public synchronized void registerAvailability(
-            @Nonnull final ServiceInstance<InstanceMetadata> instance)
+            @Nonnull final ServiceInstance<T> instance)
             throws Exception {
         checkInitialized();
         LOGGER.info("Registering service ({}) at <{}:{}>",
@@ -138,7 +144,7 @@ public class CuratorAdvertiser implements ConnectionStateListener {
      * @throws Exception
      */
     public synchronized void unregisterAvailability(
-            @Nonnull final ServiceInstance<InstanceMetadata> instance)
+            @Nonnull final ServiceInstance<T> instance)
             throws Exception {
         checkInitialized();
         LOGGER.info("Unregistering service ({}) at <{}:{}>",
@@ -183,22 +189,16 @@ public class CuratorAdvertiser implements ConnectionStateListener {
      * @return {@link ServiceInstance}
      * @throws Exception
      */
-    public synchronized ServiceInstance<InstanceMetadata> getInstance()
+    public synchronized ServiceInstance<T> getInstance()
             throws Exception {
         if (instance != null) {
             return instance;
         }
-
-        final InstanceMetadata metadata = new InstanceMetadata(instanceId,
-                listenAddress, listenPort);
-
-        instance = ServiceInstance.<InstanceMetadata> builder()
-                .name(configuration.getServiceName()).address(listenAddress)
-                .port(listenPort).id(instanceId.toString()).payload(metadata)
-                .build();
+        instance = serviceInstanceFactory.build(configuration.getServiceName(), this);
         return instance;
     }
-
+    
+    
     /**
      * Check that the {@link #initListenInfo} method has been called by
      * validating that the listenPort is greater than 1.
