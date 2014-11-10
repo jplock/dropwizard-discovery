@@ -50,7 +50,7 @@ public class CuratorAdvertiser<T> implements ConnectionStateListener {
      *            {@link ServiceDiscovery}
      */
     public CuratorAdvertiser(@Nonnull final DiscoveryFactory configuration,
-            @Nonnull final ServiceDiscovery<T> discovery, final ServiceInstanceFactory<T> serviceInstanceFactory) {
+            @Nonnull final ServiceDiscovery<T> discovery, @Nonnull final ServiceInstanceFactory<T> serviceInstanceFactory) {
         this.configuration = checkNotNull(configuration);
         this.discovery = checkNotNull(discovery);
         this.serviceInstanceFactory = checkNotNull(serviceInstanceFactory);
