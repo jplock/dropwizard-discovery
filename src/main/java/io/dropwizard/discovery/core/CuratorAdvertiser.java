@@ -25,22 +25,21 @@ import com.google.common.base.Strings;
 
 @ThreadSafe
 public class CuratorAdvertiser<T> implements ConnectionStateListener {
-    private static final Logger LOGGER = LoggerFactory
-            .getLogger(CuratorAdvertiser.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CuratorAdvertiser.class);
 
-    protected static final UUID instanceId = UUID.randomUUID();
-    protected final ServiceDiscovery<T> discovery;
-    protected final DiscoveryFactory configuration;
-    protected final ServiceInstanceFactory<T> serviceInstanceFactory;
-
-    @GuardedBy("this")
-    protected String listenAddress;
+    private static final UUID instanceId = UUID.randomUUID();
+    private final ServiceDiscovery<T> discovery;
+    private final DiscoveryFactory configuration;
+    private final ServiceInstanceFactory<T> serviceInstanceFactory;
 
     @GuardedBy("this")
-    protected int listenPort = 0;
+    private String listenAddress;
 
     @GuardedBy("this")
-    protected ServiceInstance<T> instance;
+    private int listenPort = 0;
+
+    @GuardedBy("this")
+    private ServiceInstance<T> instance;
 
     /**
      * Constructor

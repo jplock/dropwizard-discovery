@@ -30,7 +30,7 @@ public abstract class DiscoveryBundle<T extends Configuration, V> implements Con
     private ServiceDiscovery<V> discovery;
     private ObjectMapper mapper;
     
-    protected abstract Class<V> getPayloadClass();
+    public abstract Class<V> getPayloadClass();
 
     @Override
     public void initialize(@Nonnull final Bootstrap<?> bootstrap) {
