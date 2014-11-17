@@ -15,7 +15,8 @@ public class CuratorAdvertiserManager<T> implements Managed {
      * @param advertiser
      *            {@link CuratorAdvertiser}
      */
-    public CuratorAdvertiserManager(@Nonnull final CuratorAdvertiser<T> advertiser) {
+    public CuratorAdvertiserManager(
+            @Nonnull final CuratorAdvertiser<T> advertiser) {
         this.advertiser = checkNotNull(advertiser);
     }
 

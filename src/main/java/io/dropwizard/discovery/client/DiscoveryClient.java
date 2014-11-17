@@ -2,14 +2,11 @@ package io.dropwizard.discovery.client;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
-
 import java.io.Closeable;
 import java.io.IOException;
 import java.util.Collection;
-
 import javax.annotation.Nonnull;
 import javax.annotation.concurrent.ThreadSafe;
-
 import org.apache.curator.x.discovery.DownInstancePolicy;
 import org.apache.curator.x.discovery.ProviderStrategy;
 import org.apache.curator.x.discovery.ServiceCache;
@@ -103,8 +100,7 @@ public class DiscoveryClient<T> implements Closeable {
      * @param instance
      *            {@link ServiceInstance} that is causing the error.
      */
-    public void noteError(
-            @Nonnull final ServiceInstance<T> instance) {
+    public void noteError(@Nonnull final ServiceInstance<T> instance) {
         provider.noteError(instance);
     }
 
