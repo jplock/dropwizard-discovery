@@ -10,12 +10,12 @@ import org.eclipse.jetty.server.Server;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class CuratorAdvertisementListener implements ServerLifecycleListener {
+public class CuratorAdvertisementListener<T> implements ServerLifecycleListener {
 
     private static final Logger LOGGER = LoggerFactory
             .getLogger(CuratorAdvertisementListener.class);
     private static final String APPLICATION_CONNECTOR = "application";
-    private final CuratorAdvertiser advertiser;
+    private final CuratorAdvertiser<T> advertiser;
 
     /**
      * Constructor
@@ -24,7 +24,7 @@ public class CuratorAdvertisementListener implements ServerLifecycleListener {
      *            {@link CuratorAdvertiser}
      */
     public CuratorAdvertisementListener(
-            @Nonnull final CuratorAdvertiser advertiser) {
+            @Nonnull final CuratorAdvertiser<T> advertiser) {
         this.advertiser = checkNotNull(advertiser);
     }
 

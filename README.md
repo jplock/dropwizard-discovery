@@ -43,12 +43,14 @@ If you only wish to have your service register itself with Zookeeper and you don
 ```java
 public class HelloWorldApplication extends Application<HelloWorldConfiguration> {
 
-    private final DiscoveryBundle<HelloWorldConfiguration> discoveryBundle = new DiscoveryBundle<HelloWorldConfiguration>() {
-        @Override
-        public DiscoveryFactory getDiscoveryFactory(HelloWorldConfiguration configuration) {
-            return configuration.getDiscoveryFactory();
-        }
-    };
+    private final DiscoveryBundle<HelloWorldConfiguration> discoveryBundle = new DiscoveryBundle<HelloWorldConfiguration>(){
+
+            @Override
+            public DiscoveryFactory getDiscoveryFactory(HelloWorldConfiguration configuration) {
+                return configuration.getDiscovery();
+            }
+
+        });
 
     @Override
     public void initialize(Bootstrap<HelloWorldConfiguration> bootstrap) {
@@ -96,7 +98,7 @@ This project is available on Maven Central. To add it to your project simply add
 <dependency>
   <groupId>io.dropwizard.modules</groupId>
   <artifactId>dropwizard-discovery</artifactId>
-  <version>0.7.1-3</version>
+  <version>0.7.1-4</version>
 </dependency>
 ```
 
