@@ -6,3 +6,13 @@ target
 .DS_Store
 release.properties
 /bin
+
+*.iml
+
+## Directory-based project format:
+.idea/
+
+# Gradle:
+.idea/gradle.xml
+.idea/libraries
+
