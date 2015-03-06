@@ -1,11 +1,10 @@
 package io.dropwizard.discovery.core;
 
-import static org.fest.assertions.api.Assertions.assertThat;
-import static org.fest.assertions.api.Assertions.failBecauseExceptionWasNotThrown;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.failBecauseExceptionWasNotThrown;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import io.dropwizard.discovery.DiscoveryFactory;
-
 import org.apache.curator.x.discovery.ServiceDiscovery;
 import org.apache.curator.x.discovery.ServiceInstance;
 import org.junit.Before;
@@ -16,7 +15,8 @@ public class CuratorAdvertiserTest {
     @SuppressWarnings("unchecked")
     private final ServiceDiscovery<InstanceMetadata> discovery = mock(ServiceDiscovery.class);
     private final DiscoveryFactory factory = new DiscoveryFactory();
-    private final CuratorAdvertiser<InstanceMetadata> advertiser = new CuratorAdvertiser<InstanceMetadata>(factory, discovery, new DefaultServiceInstanceFactory());
+    private final CuratorAdvertiser<InstanceMetadata> advertiser = new CuratorAdvertiser<InstanceMetadata>(
+            factory, discovery, new DefaultServiceInstanceFactory());
 
     @Before
     public void setUp() {

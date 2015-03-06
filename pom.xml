@@ -7,7 +7,7 @@
 
     <groupId>io.dropwizard.modules</groupId>
     <artifactId>dropwizard-discovery</artifactId>
-    <version>0.7.1-6-SNAPSHOT</version>
+    <version>0.8.0-1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>Dropwizard Discovery</name>
@@ -82,8 +82,8 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <dropwizard.version>0.7.1</dropwizard.version>
-        <curator.version>2.7.0</curator.version>
+        <dropwizard.version>0.8.0</dropwizard.version>
+        <curator.version>2.7.1</curator.version>
     </properties>
 
     <profiles>
@@ -191,7 +191,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.18</version>
+                <version>2.18.1</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -251,10 +251,10 @@
                     <skipDeploy>true</skipDeploy>
                 </configuration>
             </plugin>
-            <plugin>
+            <!-- <plugin>
                 <groupId>com.github.github</groupId>
                 <artifactId>site-maven-plugin</artifactId>
-                <version>0.10</version>
+                <version>0.11</version>
                 <configuration>
                     <path>${project.version}</path>
                     <message>Creating site for ${project.name} ${project.version}</message>
@@ -269,11 +269,11 @@
                         <phase>site-deploy</phase>
                     </execution>
                 </executions>
-            </plugin>
+            </plugin> -->
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.7.2.201409121644</version>
+                <version>0.7.4.201502262128</version>
                 <executions>
                     <execution>
                         <id>prepare-agent</id>
