@@ -32,7 +32,7 @@ public class JacksonInstanceSerializer<T> implements InstanceSerializer<T> {
 
     @Override
     public ServiceInstance<T> deserialize(final byte[] bytes) throws Exception {
-        return reader.withType(typeRef).readValue(bytes);
+        return reader.forType(typeRef).readValue(bytes);
     }
 
     @Override
