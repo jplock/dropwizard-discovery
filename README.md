@@ -98,7 +98,7 @@ This project is available on Maven Central. To add it to your project simply add
 <dependency>
   <groupId>io.dropwizard.modules</groupId>
   <artifactId>dropwizard-discovery</artifactId>
-  <version>0.8.0-1</version>
+  <version>0.8.1-1</version>
 </dependency>
 ```
 
