@@ -7,7 +7,7 @@
 
     <groupId>io.dropwizard.modules</groupId>
     <artifactId>dropwizard-discovery</artifactId>
-    <version>0.8.0-2-SNAPSHOT</version>
+    <version>0.8.1-1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>Dropwizard Discovery</name>
@@ -82,8 +82,8 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <dropwizard.version>0.8.0</dropwizard.version>
-        <curator.version>2.7.1</curator.version>
+        <dropwizard.version>0.8.1</dropwizard.version>
+        <curator.version>2.8.0</curator.version>
     </properties>
 
     <profiles>
@@ -129,6 +129,27 @@
         </profile>
     </profiles>
 
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>1.7.10</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>18.0</version>
+            </dependency>
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>4.12</version>
+                <scope>test</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
     <dependencies>
         <dependency>
             <groupId>io.dropwizard</groupId>
@@ -139,35 +160,11 @@
             <groupId>org.apache.curator</groupId>
             <artifactId>curator-framework</artifactId>
             <version>${curator.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.google.guava</groupId>
-                    <artifactId>guava</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>log4j</groupId>
-                    <artifactId>log4j</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.slf4j</groupId>
-                    <artifactId>slf4j-log4j12</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.slf4j</groupId>
-                    <artifactId>slf4j-api</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.apache.curator</groupId>
             <artifactId>curator-x-discovery</artifactId>
             <version>${curator.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.google.guava</groupId>
-                    <artifactId>guava</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>io.dropwizard</groupId>
@@ -254,7 +251,7 @@
             <!-- <plugin>
                 <groupId>com.github.github</groupId>
                 <artifactId>site-maven-plugin</artifactId>
-                <version>0.11</version>
+                <version>0.12</version>
                 <configuration>
                     <path>${project.version}</path>
                     <message>Creating site for ${project.name} ${project.version}</message>
@@ -271,17 +268,22 @@
                 </executions>
             </plugin> -->
             <plugin>
-                <groupId>org.jacoco</groupId>
-                <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.7.4.201502262128</version>
-                <executions>
-                    <execution>
-                        <id>prepare-agent</id>
-                        <goals>
-                            <goal>prepare-agent</goal>
-                        </goals>
-                    </execution>
-                </executions>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>cobertura-maven-plugin</artifactId>
+                <version>2.6</version>
+                <configuration>
+                    <formats>
+                        <format>xml</format>
+                    </formats>
+                    <aggregate>true</aggregate>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>net.sourceforge.cobertura</groupId>
+                        <artifactId>cobertura</artifactId>
+                        <version>2.1.1</version>
+                    </dependency>
+                </dependencies>
             </plugin>
             <plugin>
                 <groupId>org.eluder.coveralls</groupId>
@@ -334,12 +336,17 @@
                     <reportSet>
                         <reports>
                             <report>index</report>
+                            <report>summary</report>
                             <report>dependency-info</report>
-                            <report>dependencies</report>
-                            <report>issue-tracking</report>
-                            <report>scm</report>
                             <report>license</report>
+                            <report>scm</report>
+                            <report>issue-tracking</report>
+                            <report>mailing-list</report>
+                            <report>cim</report>
                             <report>project-team</report>
+                            <report>dependencies</report>
+                            <report>dependency-convergence</report>
+                            <report>modules</report>
                         </reports>
                     </reportSet>
                 </reportSets>
@@ -350,8 +357,16 @@
                 <version>2.10.1</version>
                 <configuration>
                     <additionalparam>${javadoc.doclint.none}</additionalparam>
-                    <show>public</show>
+                    <quiet>true</quiet>
                 </configuration>
+                <reportSets>
+                    <reportSet>
+                        <id>html</id>
+                        <reports>
+                            <report>javadoc</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
             </plugin>
         </plugins>
     </reporting>

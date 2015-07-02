@@ -7,6 +7,7 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.NotEmpty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 
 @Immutable
@@ -67,7 +68,7 @@ public final class InstanceMetadata {
 
     @Override
     public String toString() {
-        return Objects.toStringHelper(this).add("instanceId", instanceId)
+        return MoreObjects.toStringHelper(this).add("instanceId", instanceId)
                 .add("listenAddress", listenAddress)
                 .add("listenPort", listenPort).toString();
     }
