@@ -1,7 +1,7 @@
 Dropwizard Discovery
 ====================
 [![Build Status](https://travis-ci.org/dropwizard/dropwizard-discovery.svg?branch=master)](https://travis-ci.org/dropwizard/dropwizard-discovery)
-[![Coverage Status](https://img.shields.io/coveralls/dropwizard/dropwizard-discovery.svg)](https://coveralls.io/r/dropwizard/dropwizard-discovery)
+[![Coverage Status](https://coveralls.io/repos/dropwizard/dropwizard-discovery/badge.svg?branch=master)](https://coveralls.io/r/dropwizard/dropwizard-discovery?branch=master)
 
 `dropwizard-discovery` is a [Dropwizard](http://dropwizard.io) [bundle](http://dropwizard.io/manual/core.html#bundles) that can be used to register a Dropwizard service into [Zookeeper](https://zookeeper.apache.org) upon startup. Connectivity to Zookeeper is provided by Netflix's [Curator](http://curator.apache.org) library and its built in [Service Discovery](http://curator.apache.org/curator-x-discovery/index.html) framework. This code was originally open sourced by General Electric as [snowizard-discovery](https://github.com/GeneralElectric/snowizard-discovery) under a BSD license.
 
@@ -98,7 +98,7 @@ This project is available on Maven Central. To add it to your project simply add
 <dependency>
   <groupId>io.dropwizard.modules</groupId>
   <artifactId>dropwizard-discovery</artifactId>
-  <version>0.8.1-1</version>
+  <version>0.8.2-1</version>
 </dependency>
 ```
 
