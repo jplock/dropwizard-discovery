@@ -1,11 +1,10 @@
 package io.dropwizard.discovery.manage;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import io.dropwizard.lifecycle.Managed;
 import javax.annotation.Nonnull;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.imps.CuratorFrameworkState;
-import org.apache.curator.utils.EnsurePath;
+import io.dropwizard.lifecycle.Managed;
 
 public class CuratorManager implements Managed {
 
@@ -30,7 +29,7 @@ public class CuratorManager implements Managed {
     public void start() throws Exception {
         // framework was already started in constructor
         // ensure that the root path is available
-        new EnsurePath("/").ensure(framework.getZookeeperClient());
+        framework.create().creatingParentsIfNeeded().forPath("/");
     }
 
     @Override
