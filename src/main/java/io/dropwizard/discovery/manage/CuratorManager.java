@@ -4,6 +4,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import javax.annotation.Nonnull;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.imps.CuratorFrameworkState;
+import org.apache.zookeeper.data.Stat;
 import io.dropwizard.lifecycle.Managed;
 
 public class CuratorManager implements Managed {
@@ -27,9 +28,12 @@ public class CuratorManager implements Managed {
 
     @Override
     public void start() throws Exception {
-        // framework was already started in constructor
-        // ensure that the root path is available
-        framework.create().creatingParentsIfNeeded().forPath("/");
+        framework.blockUntilConnected();
+        final Stat stat = framework.checkExists().forPath("/");
+        if (stat == null) {
+            // ensure that the root path is available
+            framework.create().creatingParentsIfNeeded().forPath("/");
+        }
     }
 
     @Override
