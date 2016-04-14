@@ -8,7 +8,7 @@ import static org.mockito.Mockito.when;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.api.CreateBuilder;
 import org.apache.curator.framework.api.ExistsBuilder;
-import org.apache.curator.framework.api.ProtectACLCreateModeStatPathAndBytesable;
+import org.apache.curator.framework.api.ProtectACLCreateModePathAndBytesable;
 import org.apache.zookeeper.data.Stat;
 import org.junit.After;
 import org.junit.Before;
@@ -20,8 +20,8 @@ public class CuratorManagerTest {
     private final CreateBuilder create = mock(CreateBuilder.class);
     private final ExistsBuilder exists = mock(ExistsBuilder.class);
     @SuppressWarnings("unchecked")
-    private final ProtectACLCreateModeStatPathAndBytesable<String> acl = mock(
-            ProtectACLCreateModeStatPathAndBytesable.class);
+    private final ProtectACLCreateModePathAndBytesable<String> acl = mock(
+            ProtectACLCreateModePathAndBytesable.class);
     private final CuratorManager manager = new CuratorManager(framework);
 
     @Before
