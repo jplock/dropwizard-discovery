@@ -4,6 +4,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import javax.annotation.Nonnull;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.imps.CuratorFrameworkState;
+import org.apache.zookeeper.data.Stat;
 import io.dropwizard.lifecycle.Managed;
 
 public class CuratorManager implements Managed {
@@ -20,16 +21,19 @@ public class CuratorManager implements Managed {
         this.framework = checkNotNull(framework);
         // start framework directly to allow other bundles to interact with
         // zookeeper during their run() method.
-        if (framework.getState() != CuratorFrameworkState.STARTED) {
-            framework.start();
+        if (this.framework.getState() != CuratorFrameworkState.STARTED) {
+            this.framework.start();
         }
     }
 
     @Override
     public void start() throws Exception {
-        // framework was already started in constructor
-        // ensure that the root path is available
-        framework.create().creatingParentsIfNeeded().forPath("/");
+        framework.blockUntilConnected();
+        final Stat stat = framework.checkExists().forPath("/");
+        if (stat == null) {
+            // ensure that the root path is available
+            framework.create().creatingParentsIfNeeded().forPath("/");
+        }
     }
 
     @Override
