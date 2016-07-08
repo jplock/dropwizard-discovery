@@ -1,7 +1,6 @@
 package io.dropwizard.discovery.core;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import io.dropwizard.discovery.DiscoveryFactory;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.util.Collection;
@@ -20,6 +19,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.google.common.base.Optional;
 import com.google.common.base.Strings;
+import io.dropwizard.discovery.DiscoveryFactory;
 
 @ThreadSafe
 public class CuratorAdvertiser<T> implements ConnectionStateListener {
@@ -80,7 +80,8 @@ public class CuratorAdvertiser<T> implements ConnectionStateListener {
             return;
         }
 
-        LOGGER.warn("listenAddress not found in configuration file, attempting to auto-detect");
+        LOGGER.warn(
+                "listenAddress not found in configuration file, attempting to auto-detect");
 
         try {
             final Collection<InetAddress> ips = ServiceInstanceBuilder
@@ -173,7 +174,7 @@ public class CuratorAdvertiser<T> implements ConnectionStateListener {
      * 
      * @return port number
      */
-    public int getListenPort() {
+    public synchronized int getListenPort() {
         return listenPort;
     }
 
@@ -182,7 +183,7 @@ public class CuratorAdvertiser<T> implements ConnectionStateListener {
      *
      * @return port number
      */
-    public Optional<Integer> getAdminPort() {
+    public synchronized Optional<Integer> getAdminPort() {
         return Optional.fromNullable(adminPort);
     }
 
@@ -191,7 +192,7 @@ public class CuratorAdvertiser<T> implements ConnectionStateListener {
      * 
      * @return IP address
      */
-    public String getListenAddress() {
+    public synchronized String getListenAddress() {
         return listenAddress;
     }
 
@@ -217,7 +218,7 @@ public class CuratorAdvertiser<T> implements ConnectionStateListener {
      * 
      * @throws IllegalStateException
      */
-    public void checkInitialized() {
+    public synchronized void checkInitialized() {
         if (Strings.isNullOrEmpty(listenAddress) || listenPort < 1) {
             throw new IllegalStateException("Not initialized");
         }
