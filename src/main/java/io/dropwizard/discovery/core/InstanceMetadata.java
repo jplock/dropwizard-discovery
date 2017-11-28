@@ -1,6 +1,7 @@
 package io.dropwizard.discovery.core;
 
-import io.dropwizard.validation.PortRange;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.UUID;
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.Immutable;
@@ -9,8 +10,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.MoreObjects;
-import com.google.common.base.Objects;
-import com.google.common.base.Optional;
+import io.dropwizard.validation.PortRange;
 
 @Immutable
 public final class InstanceMetadata {
@@ -39,7 +39,7 @@ public final class InstanceMetadata {
         if (adminPort == null) {
             this.adminPort = null;
         } else {
-            this.adminPort = adminPort.orNull();
+            this.adminPort = adminPort.orElse(null);
         }
     }
 
@@ -60,7 +60,7 @@ public final class InstanceMetadata {
 
     @JsonProperty
     public Optional<Integer> getAdminPort() {
-        return Optional.fromNullable(adminPort);
+        return Optional.ofNullable(adminPort);
     }
 
     @Override
@@ -73,16 +73,15 @@ public final class InstanceMetadata {
         }
 
         final InstanceMetadata other = (InstanceMetadata) obj;
-        return Objects.equal(instanceId, other.instanceId)
-                && Objects.equal(listenAddress, other.listenAddress)
-                && Objects.equal(listenPort, other.listenPort)
-                && Objects.equal(adminPort, other.adminPort);
+        return Objects.equals(instanceId, other.instanceId)
+                && Objects.equals(listenAddress, other.listenAddress)
+                && Objects.equals(listenPort, other.listenPort)
+                && Objects.equals(adminPort, other.adminPort);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(instanceId, listenAddress, listenPort,
-                adminPort);
+        return Objects.hash(instanceId, listenAddress, listenPort, adminPort);
     }
 
     @Override
