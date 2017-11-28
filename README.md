@@ -40,7 +40,7 @@ public class HelloWorldConfiguration extends Configuration {
 }
 ```
 
-If you only wish to have your service register itself with Zookeeper and you don't intend on consuming any other services, you just need to add the following into the [`Application#initialize`](http://dropwizard.io/1.0.0/dropwizard-core/apidocs/io/dropwizard/Application.html#initialize(io.dropwizard.setup.Bootstrap)) method:
+If you only wish to have your service register itself with Zookeeper and you don't intend on consuming any other services, you just need to add the following into the [`Application#initialize`](http://dropwizard.io/1.2.2/dropwizard-core/apidocs/io/dropwizard/Application.html#initialize(io.dropwizard.setup.Bootstrap)) method:
 
 ```java
 public class HelloWorldApplication extends Application<HelloWorldConfiguration> {
@@ -99,7 +99,7 @@ This project is available on Maven Central. To add it to your project simply add
 <dependency>
   <groupId>io.dropwizard.modules</groupId>
   <artifactId>dropwizard-discovery</artifactId>
-  <version>1.0.2-1</version>
+  <version>1.2.2-1</version>
 </dependency>
 ```
 
