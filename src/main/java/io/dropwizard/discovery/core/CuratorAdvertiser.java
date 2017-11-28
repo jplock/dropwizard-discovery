@@ -4,6 +4,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.util.Collection;
+import java.util.Optional;
 import java.util.UUID;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -17,7 +18,6 @@ import org.apache.curator.x.discovery.ServiceInstance;
 import org.apache.curator.x.discovery.ServiceInstanceBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.google.common.base.Optional;
 import com.google.common.base.Strings;
 import io.dropwizard.discovery.DiscoveryFactory;
 
@@ -31,15 +31,18 @@ public class CuratorAdvertiser<T> implements ConnectionStateListener {
     private final DiscoveryFactory configuration;
     private final ServiceInstanceFactory<T> serviceInstanceFactory;
 
+    @Nullable
     @GuardedBy("this")
-    private String listenAddress;
+    private String listenAddress = null;
 
     @GuardedBy("this")
     private int listenPort = 0;
 
+    @Nullable
     @GuardedBy("this")
     private Integer adminPort = null;
 
+    @Nullable
     @GuardedBy("this")
     private ServiceInstance<T> instance;
 
@@ -184,7 +187,7 @@ public class CuratorAdvertiser<T> implements ConnectionStateListener {
      * @return port number
      */
     public synchronized Optional<Integer> getAdminPort() {
-        return Optional.fromNullable(adminPort);
+        return Optional.ofNullable(adminPort);
     }
 
     /**
@@ -192,6 +195,7 @@ public class CuratorAdvertiser<T> implements ConnectionStateListener {
      * 
      * @return IP address
      */
+    @Nullable
     public synchronized String getListenAddress() {
         return listenAddress;
     }

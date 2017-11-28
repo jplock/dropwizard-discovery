@@ -1,9 +1,6 @@
 package io.dropwizard.discovery;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import io.dropwizard.util.Duration;
-import io.dropwizard.validation.MinDuration;
-import io.dropwizard.validation.PortRange;
 import java.util.concurrent.TimeUnit;
 import javax.annotation.Nonnull;
 import javax.validation.constraints.Max;
@@ -17,6 +14,9 @@ import org.hibernate.validator.constraints.NotEmpty;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Joiner;
+import io.dropwizard.util.Duration;
+import io.dropwizard.validation.MinDuration;
+import io.dropwizard.validation.PortRange;
 
 public class DiscoveryFactory {
 
@@ -59,7 +59,7 @@ public class DiscoveryFactory {
     private int port = 2181;
 
     @NotEmpty
-    private String serviceName;
+    private String serviceName = "";
 
     @NotNull
     private String listenAddress = "";
@@ -165,7 +165,8 @@ public class DiscoveryFactory {
     }
 
     @JsonProperty
-    public void setConnectionTimeout(@Nonnull final Duration connectionTimeout) {
+    public void setConnectionTimeout(
+            @Nonnull final Duration connectionTimeout) {
         this.connectionTimeout = checkNotNull(connectionTimeout);
     }
 
@@ -233,8 +234,8 @@ public class DiscoveryFactory {
      */
     @JsonIgnore
     public RetryPolicy getRetryPolicy() {
-        return new ExponentialBackoffRetry((int) getBaseSleepTime()
-                .toMilliseconds(), getMaxRetries());
+        return new ExponentialBackoffRetry(
+                (int) getBaseSleepTime().toMilliseconds(), getMaxRetries());
     }
 
     /**

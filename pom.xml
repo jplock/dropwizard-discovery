@@ -74,7 +74,7 @@
         <developer>
             <id>jplock</id>
             <name>Justin Plock</name>
-            <email>justin@plock.net</email>
+            <email>jplock@smoketurner.com</email>
             <timezone>America/New_York</timezone>
         </developer>
     </developers>
@@ -113,7 +113,7 @@
                         </executions>
                         <configuration>
                             <passphrase>${gpg.passphrase}</passphrase>
-                            <keyname>634EF5AC</keyname>
+                            <keyname>8812F4E9</keyname>
                         </configuration>
                     </plugin>
                 </plugins>
@@ -174,8 +174,6 @@
                                 </path>
                             </annotationProcessorPaths>
                             <compilerArgs>
-                                <arg>-XepDisableWarningsInGeneratedCode</arg>
-                                <arg>-Xep:NullAway:ERROR</arg>
                                 <arg>-XepOpt:NullAway:AnnotatedPackages=io.dropwizard.discovery</arg>
                             </compilerArgs>
                         </configuration>

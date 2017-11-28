@@ -4,17 +4,18 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.failBecauseExceptionWasNotThrown;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
-import io.dropwizard.discovery.DiscoveryFactory;
+import java.util.Optional;
 import org.apache.curator.x.discovery.ServiceDiscovery;
 import org.apache.curator.x.discovery.ServiceInstance;
 import org.junit.Before;
 import org.junit.Test;
-import com.google.common.base.Optional;
+import io.dropwizard.discovery.DiscoveryFactory;
 
 public class CuratorAdvertiserTest {
 
     @SuppressWarnings("unchecked")
-    private final ServiceDiscovery<InstanceMetadata> discovery = mock(ServiceDiscovery.class);
+    private final ServiceDiscovery<InstanceMetadata> discovery = mock(
+            ServiceDiscovery.class);
     private final DiscoveryFactory factory = new DiscoveryFactory();
     private final CuratorAdvertiser<InstanceMetadata> advertiser = new CuratorAdvertiser<InstanceMetadata>(
             factory, discovery, new DefaultServiceInstanceFactory());
@@ -38,8 +39,8 @@ public class CuratorAdvertiserTest {
         factory.setListenAddress("127.0.0.1");
         advertiser.initListenInfo(8080, null);
         assertThat(advertiser.getListenPort()).isEqualTo(8080);
-        assertThat(advertiser.getAdminPort()).isEqualTo(
-                Optional.<Integer> absent());
+        assertThat(advertiser.getAdminPort())
+                .isEqualTo(Optional.<Integer>empty());
         assertThat(advertiser.getListenAddress()).isEqualTo("127.0.0.1");
     }
 

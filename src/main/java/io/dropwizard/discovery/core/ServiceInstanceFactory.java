@@ -13,5 +13,4 @@ public interface ServiceInstanceFactory<T> {
 
     public ServiceInstance<T> build(String serviceName,
             CuratorAdvertiser<T> advertiser) throws Exception;
-
 }
